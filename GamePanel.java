@@ -82,6 +82,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		// to middle of screen
 		leftPaddle = new Paddle(0, GAME_HEIGHT / 2, 'w', 's');
 		rightPaddle = new Paddle(GAME_WIDTH - Paddle.WIDTH, GAME_HEIGHT / 2, 'o', 'l');
+		
+		Random rn = new Random(); int one = rn.nextInt(2)+1; int two = rn.nextInt(2)+1; //random direction on respawn
+        	if(one==1) {ball.xVelocity *=-1;} if(two==1) {ball.yVelocity *=-1;}
 	}
 
 	public void checkCollision() {
