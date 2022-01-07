@@ -9,11 +9,9 @@ import javax.swing.*;
 
 public class GameFrame extends JFrame {
 
-	GamePanel panel;
-
 	public GameFrame() {
-		panel = new GamePanel(false, true); // run GamePanel constructor
-		this.add(panel);
+		GamePanel gamePanel = new GamePanel(false, true);
+		this.add(gamePanel);
 		this.setTitle("GUI is cool!"); // set title for frame
 		this.setResizable(false); // frame can't change size
 		this.setBackground(Color.white);
@@ -22,6 +20,7 @@ public class GameFrame extends JFrame {
 					// adjust accordingly
 		this.setVisible(true); // makes window visible to user
 		this.setLocationRelativeTo(null);// set window in middle of screen
+		
 	}
 
 }

@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener {
+public class AIGamePanel extends JPanel implements Runnable, KeyListener {
 
 	// dimensions of window
 	public static final int GAME_WIDTH = 1000;
@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	public Image image;
 	public Graphics graphics;
 	public PlayerBall ball;
-	public PlayerPaddle leftPaddle;
+	public Paddle leftPaddle;
 	public Paddle rightPaddle;
 	public boolean xDir; // right is true, left is false
 	public boolean yDir; // up is true, down is false
@@ -31,15 +31,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	public boolean twoPlayer;
 	public boolean randomDir;
 	public Player p1,p2;
-	public GamePanel(boolean twoPlayer, boolean randomDir) {
+	public AIGamePanel(boolean twoPlayer, boolean randomDir) {
 		this.twoPlayer = twoPlayer;
 		this.randomDir = randomDir;
-		p1=new Player('d','f','g');
-		if(twoPlayer) {
-			p2=new Player(',','.','/');
-		}else {
-			p2=new Player('`','`','`');
-		}
+		p1=new Player('`','`','`');
+		p2=new Player('`','`','`');
+		
 		reset();
 		p1Lives = 5;
 		p2Lives = 5;
@@ -83,9 +80,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// laggy
 	public void move() {
 		ball.move();
-		if (!twoPlayer) {
-			((AIPaddle) rightPaddle).follow(ball);
-		}
+		((AIPaddle) rightPaddle).follow(ball);
+		((AIPaddle) leftPaddle).follow(ball);
 		leftPaddle.move();
 		rightPaddle.move();
 	}
@@ -94,12 +90,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		ball = new PlayerBall(GAME_WIDTH / 2, GAME_HEIGHT / 2); // create a player controlled ball, set start location
 		
 		// to middle of screen
-		leftPaddle = new PlayerPaddle(0, GAME_HEIGHT / 2, 'w', 's');
-		if (twoPlayer) {
-			rightPaddle = new PlayerPaddle(GAME_WIDTH - Paddle.WIDTH, GAME_HEIGHT / 2, 'o', 'l');
-		} else {
-			rightPaddle = new AIPaddle(GAME_WIDTH - Paddle.WIDTH, GAME_HEIGHT / 2);
-		}
+		
+		rightPaddle = new AIPaddle(GAME_WIDTH - Paddle.WIDTH, GAME_HEIGHT / 2);
+		leftPaddle = new AIPaddle(0, GAME_HEIGHT / 2);
 	}
 //	public void ai() {
 //		if(ball.xVelocity>0) {
@@ -157,7 +150,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		leftPaddle.y = Math.max(0, leftPaddle.y);
 		leftPaddle.y = Math.min(leftPaddle.y, GAME_HEIGHT - leftPaddle.height);
 		rightPaddle.y = Math.max(0, rightPaddle.y);
-		rightPaddle.y = Math.min(rightPaddle.y, GAME_HEIGHT - rightPaddle.height);if (ball.x <= 0) {
+		rightPaddle.y = Math.min(rightPaddle.y, GAME_HEIGHT - rightPaddle.height);
+		if (ball.x <= 0) {
 			p1.lives--;
 			reset();
 		}
@@ -209,21 +203,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// if a key is pressed, we'll send it over to the PlayerBall class for
 	// processing
 	public void keyPressed(KeyEvent e) {
-		leftPaddle.keyPressed(e);
-		p1.keyPressed(e,leftPaddle,rightPaddle);
-		if (twoPlayer) {
-			((PlayerPaddle) rightPaddle).keyPressed(e);
-			p2.keyPressed(e,rightPaddle,leftPaddle);
-		}
+		
 	}
 
 	// if a key is released, we'll send it over to the PlayerBall class for
 	// processing
 	public void keyReleased(KeyEvent e) {
-		leftPaddle.keyReleased(e);
-		if (twoPlayer) {
-			((PlayerPaddle) rightPaddle).keyReleased(e);
-		}
+		
 	}
 
 	// left empty because we don't need it; must be here because it is required to
