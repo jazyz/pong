@@ -94,8 +94,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		} else {
 			rightPaddle = new AIPaddle(GAME_WIDTH - Paddle.WIDTH, GAME_HEIGHT / 2);
 		}
-		
-		
 	}
 //	public void ai() {
 //		if(ball.xVelocity>0) {
