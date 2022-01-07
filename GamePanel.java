@@ -22,17 +22,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	public Image image;
 	public Graphics graphics;
 	public PlayerBall ball;
-	public Paddle leftPaddle;
+	public PlayerPaddle leftPaddle;
 	public Paddle rightPaddle;
 	public boolean xDir; // right is true, left is false
 	public boolean yDir; // up is true, down is false
 	public int p1Lives;
 	public int p2Lives;
+	public boolean twoPlayer;
+	public boolean randomDir;
 
-	public GamePanel() {
+	public GamePanel(boolean twoPlayer, boolean randomDir) {
+		this.twoPlayer = twoPlayer;
+		this.randomDir = randomDir;
 		reset();
-		p1Lives = 1;
-		p2Lives = 1;
+		p1Lives = 5;
+		p2Lives = 5;
 		this.setFocusable(true); // make everything in this class appear on the screen
 		this.addKeyListener(this); // start listening for keyboard input
 		this.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
@@ -73,45 +77,72 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// laggy
 	public void move() {
 		ball.move();
+		if (!twoPlayer) {
+			((AIPaddle) rightPaddle).follow(ball);
+		}
 		leftPaddle.move();
 		rightPaddle.move();
 	}
 
 	public void reset() {
 		ball = new PlayerBall(GAME_WIDTH / 2, GAME_HEIGHT / 2); // create a player controlled ball, set start location
+		
 		// to middle of screen
-		leftPaddle = new Paddle(0, GAME_HEIGHT / 2, 'w', 's');
-		rightPaddle = new Paddle(GAME_WIDTH - Paddle.WIDTH, GAME_HEIGHT / 2, 'o', 'l');
+		leftPaddle = new PlayerPaddle(0, GAME_HEIGHT / 2, 'w', 's');
+		if (twoPlayer) {
+			rightPaddle = new PlayerPaddle(GAME_WIDTH - Paddle.WIDTH, GAME_HEIGHT / 2, 'o', 'l');
+		} else {
+			rightPaddle = new AIPaddle(GAME_WIDTH - Paddle.WIDTH, GAME_HEIGHT / 2);
+		}
+		
+		
 	}
-
+//	public void ai() {
+//		if(ball.xVelocity>0) {
+//			double d = 1.0*(GAME_WIDTH - ball.x)*(ball.yVelocity/ball.xVelocity)+ball.y;
+//			
+//			if(d>=0&&d<=GAME_HEIGHT) {
+//				if(rightPaddle.y>d) {
+//					rightPaddle.yVelocity=-Math.abs(rightPaddle.yVelocity);
+//				}else {
+//					rightPaddle.yVelocity=Math.abs(rightPaddle.yVelocity);
+//				}	
+//			}
+//		}
+//		if(leftPaddle.y>ball.y) {
+//			leftPaddle.yVelocity=-Math.abs(rightPaddle.yVelocity);
+//		}else {
+//			leftPaddle.yVelocity=Math.abs(rightPaddle.yVelocity);
+//		}
+//	}
 	public void checkCollision() {
-
-		// bounce ball off top & bottom window edges
 		if (ball.y <= 0 || ball.y >= GAME_HEIGHT - PlayerBall.BALL_DIAMETER) {
 			ball.setYDirection(-ball.yVelocity);
 		}
-		// bounce ball off paddles
 		if (ball.intersects(leftPaddle) || ball.intersects(rightPaddle)) {
 			ball.xVelocity *= -1;
-			if (ball.xVelocity > 0) {
-				ball.xVelocity++;
-			} else {
-				ball.xVelocity--;
+			int dx = 1;
+			int dy = 1;
+			if (randomDir) {
+				dx = (int) (Math.random() * 2);
+				dy = (int) (Math.random() * 2);		
 			}
-			if (ball.yVelocity > 0) {
-				ball.yVelocity++;
-			} else {
-				ball.yVelocity--;
+			if (ball.xVelocity < 0) {
+				dx *= -1;
+			} 
+			if (ball.yVelocity < 0) {
+				dy *= -1;
 			}
-			ball.setXDirection(ball.xVelocity);
-			ball.setYDirection(ball.yVelocity);
+			ball.xVelocity += dx;
+			ball.yVelocity += dy;
+			ball.setXDirection(ball.xVelocity);	
+			ball.setYDirection(ball.yVelocity);	
+
 		}
-		// stops paddles at window edges
 		leftPaddle.y = Math.max(0, leftPaddle.y);
 		leftPaddle.y = Math.min(leftPaddle.y, GAME_HEIGHT - leftPaddle.height);
 		rightPaddle.y = Math.max(0, rightPaddle.y);
 		rightPaddle.y = Math.min(rightPaddle.y, GAME_HEIGHT - rightPaddle.height);
-		// give a player 1 point and creates new paddles & ball
 		if (ball.x <= 0) {
 			p1Lives--;
 			reset();
@@ -142,6 +173,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			// only move objects around and update screen if enough time has passed
 			if (delta >= 1) {
 				move();
+//				ai();
 				checkCollision();
 				if (checkGameEnd()) {
 					break;
@@ -151,7 +183,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			}
 		}
 	}
-	
+
 	public boolean checkGameEnd() {
 		if (p1Lives <= 0 || p2Lives <= 0) {
 			return true;
@@ -164,14 +196,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// processing
 	public void keyPressed(KeyEvent e) {
 		leftPaddle.keyPressed(e);
-		rightPaddle.keyPressed(e);
+		if (twoPlayer) {
+			((PlayerPaddle) rightPaddle).keyPressed(e);
+		}
 	}
 
 	// if a key is released, we'll send it over to the PlayerBall class for
 	// processing
 	public void keyReleased(KeyEvent e) {
 		leftPaddle.keyReleased(e);
-		rightPaddle.keyReleased(e);
+		if (twoPlayer) {
+			((PlayerPaddle) rightPaddle).keyReleased(e);
+		}
 	}
 
 	// left empty because we don't need it; must be here because it is required to
