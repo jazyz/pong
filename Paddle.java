@@ -4,7 +4,7 @@ import java.awt.event.*;
 public class Paddle extends Rectangle {
 
 	public int yVelocity;
-	public final int SPEED = 10; // movement speed of paddle
+	public final int SPEED = 5; // movement speed of paddle
 	public static final int HEIGHT = 50; // height of paddle
 	public static final int WIDTH = 10; // width of paddle
 
