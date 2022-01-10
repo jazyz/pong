@@ -10,7 +10,7 @@ import javax.swing.*;
 public class GameFrame extends JFrame {
 
 	public GameFrame() {
-		AIGamePanel gamePanel = new AIGamePanel(false, false);
+		GamePanel gamePanel = new GamePanel(false, false);
 		this.add(gamePanel);
 		this.setTitle("Pong"); // set title for frame
 		this.setResizable(false); // frame can't change size

@@ -157,7 +157,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		leftPaddle.y = Math.max(0, leftPaddle.y);
 		leftPaddle.y = Math.min(leftPaddle.y, GAME_HEIGHT - leftPaddle.height);
 		rightPaddle.y = Math.max(0, rightPaddle.y);
-		rightPaddle.y = Math.min(rightPaddle.y, GAME_HEIGHT - rightPaddle.height);if (ball.x <= 0) {
+		rightPaddle.y = Math.min(rightPaddle.y, GAME_HEIGHT - rightPaddle.height);
+		if (ball.x <= 0) {
 			p1.lives--;
 			reset();
 		}
@@ -186,7 +187,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 			// only move objects around and update screen if enough time has passed
 			if (delta >= 1) {
-				checkCollision();
+//				checkCollision();
 				move();
 				checkCollision();
 
