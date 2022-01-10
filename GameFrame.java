@@ -10,9 +10,9 @@ import javax.swing.*;
 public class GameFrame extends JFrame {
 
 	public GameFrame() {
-		GamePanel gamePanel = new GamePanel(false, true);
+		AIGamePanel gamePanel = new AIGamePanel(false, false);
 		this.add(gamePanel);
-		this.setTitle("GUI is cool!"); // set title for frame
+		this.setTitle("Pong"); // set title for frame
 		this.setResizable(false); // frame can't change size
 		this.setBackground(Color.white);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // X button will stop program execution
