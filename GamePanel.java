@@ -124,7 +124,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		int dx = 1;
 		int dy = 1;
 		if (randomDir) {
-			ball.yVelocity=(int)Math.random()*4 +1;
+			ball.yVelocity=(int)Math.random()*7 +1;
 			if(Math.random()>0.5) {
 				ball.yVelocity*=-1;
 			}
@@ -186,9 +186,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 			// only move objects around and update screen if enough time has passed
 			if (delta >= 1) {
-				move();
-//				ai();
 				checkCollision();
+				move();
+				checkCollision();
+
+//				ai();
 				if (checkGameEnd()) {
 					break;
 				}
