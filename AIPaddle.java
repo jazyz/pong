@@ -1,3 +1,5 @@
+// AI Paddle class allows paddle to follow the ball
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -11,29 +13,23 @@ public class AIPaddle extends Paddle {
 		yVelocity=baseY;
 	}
 	
-	public void follow(PlayerBall ball) {
-		if (y>ball.y) {
-			yVelocity = (-Math.abs(ball.yVelocity));
-		} else if (y == ball.y) {
+	public void follow(GameBall ball) {
+		if (y+HEIGHT/2>ball.y+GameBall.BALL_DIAMETER) {
+			yVelocity = -Math.abs(ball.yVelocity);
+			if(ball.xVelocity>-2*yVelocity) {
+				yVelocity = -Math.abs(ball.xVelocity);
+			}
+		} else if (y+HEIGHT/2>ball.y+GameBall.BALL_DIAMETER) {
 			yVelocity = 0;
 		} else {
 			yVelocity = Math.abs(ball.yVelocity);
-		}
-	}
-	
-	public void predict(PlayerBall ball) {
-		if(ball.xVelocity>0) {
-			double d = 1.0*(GamePanel.GAME_WIDTH - ball.x)*(ball.yVelocity/ball.xVelocity)+ball.y;
-			
-			if(d>=0&&d<=GamePanel.GAME_HEIGHT) {
-				if(y>d) {
-					yVelocity=-Math.abs(yVelocity);
-				}else {
-					yVelocity=Math.abs(yVelocity);
-				}	
+			if(ball.xVelocity>2*yVelocity) {
+				yVelocity = Math.abs(ball.xVelocity);
 			}
 		}
+		
 	}
+	
 
 
 }
