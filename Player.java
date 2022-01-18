@@ -17,20 +17,20 @@ public class Player {
 	}
 	public void keyPressed(KeyEvent e, GameBall ball) {
 		if(e.getKeyChar()==u1) {
-			if(coins>=10) { // power-up 1 costs 10 coins
+			if(coins>=10) { // power-up 1 costs 10 coins, increase lives by one
 				coins-=10;
 				lives++;				
 			}
 		}
 		if(e.getKeyChar()==u2) { 
-			if(coins>=5) { // power-up 2 costs 5 coins
-				coins-=5;
+			if(coins>=3) { // power-up 2 costs 3 coins, ball speed increase
+				coins-=3;
 				ball.xVelocity*=2;	
 			}
 		}
 		if(e.getKeyChar()==u3) {
-			if(coins>=5) { // power-up 3 costs 5 coins
-				coins-=5;
+			if(coins>=3) { // power-up 3 costs 3 coins, ball speed decrease
+				coins-=3;
 				if(Math.abs(ball.xVelocity)>=2){
 					ball.xVelocity/=2;
 				}
