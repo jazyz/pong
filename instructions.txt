@@ -1,0 +1,13 @@
+Left Player:
+w - Paddle Up
+s - Paddle Down
+d - Pay 10 Coins, +1 Life
+f - Pay 3 Coins, Increase Ball Speed
+g - Pay 3 Coins, Decrease Ball Speed
+
+Right Player:
+o - Paddle Up
+l - Paddle Down
+p - Pay 10 Coins, +1 Life
+[ - Pay 3 Coins, Increase Ball Speed
+] - Pay 3 Coins, Decrease Ball Speed
