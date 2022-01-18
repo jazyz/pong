@@ -31,8 +31,9 @@ public class Player {
 		if(e.getKeyChar()==u3) {
 			if(coins>=5) { // power-up 3 costs 5 coins
 				coins-=5;
-				ball.xVelocity/=2;
-				ball.xVelocity=Math.max(ball.xVelocity,1);
+				if(Math.abs(ball.xVelocity)>=2){
+					ball.xVelocity/=2;
+				}
 			}
 		}
 	}
