@@ -21,9 +21,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	public GamePanel(boolean twoPlayer, boolean randomDir) {
 		this.twoPlayer = twoPlayer;
 		this.randomDir = randomDir;
-		p1=new Player('d','f','g',true);
+		p1=new Player('a','q','e',true);
 		if(twoPlayer) {
-			p2=new Player('p','[',']',false);
+			p2=new Player('[','k','p',false);
 		}else {
 			p2=new Player('`','`','`',false);
 		}
@@ -81,8 +81,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		int dx = 1;
 		int dy = 1;
 		if (randomDir) { // Ball bounces off at random
-			dx=(int)(Math.random()*7.0) +3;
-			dy=(int)(Math.random()*7.0) +3;
+			dx=(int)(Math.random()*10.0) +3;
+			dy=(int)(Math.random()*10.0) +3;
 			if(Math.random()>0.5) {
 				dy*=-1;
 			}
@@ -92,8 +92,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			ball.xVelocity = dx;
 			ball.yVelocity = dy;
 		}else { // Ball speed increases by random amount
-			dx += (int) (Math.random() * 2);
-			dy += (int) (Math.random() * 2);		
+			dx += (int) (Math.random() * 2.0);
+			dy += (int) (Math.random() * 2.0);		
 			if (ball.xVelocity < 0) {
 				dx *= -1;
 			} 
