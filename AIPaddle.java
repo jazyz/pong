@@ -16,16 +16,10 @@ public class AIPaddle extends Paddle {
 	public void follow(GameBall ball) {
 		if (y+HEIGHT/2>ball.y+GameBall.BALL_DIAMETER) {
 			yVelocity = -Math.abs(ball.yVelocity);
-			if(ball.xVelocity>-2*yVelocity) {
-				yVelocity = -Math.abs(ball.xVelocity);
-			}
 		} else if (y+HEIGHT/2>ball.y+GameBall.BALL_DIAMETER) {
 			yVelocity = 0;
 		} else {
 			yVelocity = Math.abs(ball.yVelocity);
-			if(ball.xVelocity>2*yVelocity) {
-				yVelocity = Math.abs(ball.xVelocity);
-			}
 		}
 		
 	}
