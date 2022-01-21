@@ -40,19 +40,19 @@ public class Player {
 		if(e.getKeyChar()==u3) {
 			if(coins>=3) { // power-up 3 costs 3 coins, ball speed decrease
 				coins-=3;
-				if(Math.abs(ball.xVelocity)>=4){
-					if(ball.xVelocity>0) {
-						ball.xVelocity-=3;
-					}else {
-						ball.xVelocity+=3;
-					}
+				if(ball.xVelocity>0) {
+					ball.xVelocity-=3;
+					ball.xVelocity=Math.max(1,ball.xVelocity);
+				}else {
+					ball.xVelocity+=3;
+					ball.xVelocity=Math.min(-1,ball.xVelocity);
 				}
-				if(Math.abs(ball.yVelocity)>=4){
-					if(ball.yVelocity>0) {
-						ball.yVelocity-=3;
-					}else {
-						ball.yVelocity+=3;
-					}
+				if(ball.yVelocity>0) {
+					ball.yVelocity-=3;
+					ball.yVelocity=Math.max(1,ball.yVelocity);
+				}else {
+					ball.yVelocity+=3;
+					ball.yVelocity=Math.min(-1,ball.yVelocity);
 				}
 			}
 		}
