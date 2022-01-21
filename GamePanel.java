@@ -16,30 +16,31 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	public PlayerPaddle leftPaddle;
 	public Paddle rightPaddle;
 	public boolean twoPlayer;
-	public boolean randomDir;
-	public Player p1,p2;
-	public GamePanel(boolean twoPlayer, boolean randomDir) {
+	public boolean randomSpeed;
+	public Player p1, p2;
+
+	public GamePanel(boolean twoPlayer, boolean randomSpeed) {
 		this.twoPlayer = twoPlayer;
-		this.randomDir = randomDir;
-		p1=new Player('a','q','e',true);
-		if(twoPlayer) {
-			p2=new Player('[','k','p',false);
-		}else {
-			p2=new Player('`','`','`',false);
+		this.randomSpeed = randomSpeed;
+		p1 = new Player('a', 'q', 'e', true);
+		if (twoPlayer) {
+			p2 = new Player('[', 'k', 'p', false);
+		} else {
+			p2 = new Player('`', '`', '`', false);
 		}
 		reset();
-		this.setFocusable(true); 
-		this.addKeyListener(this); 
+		this.setFocusable(true);
+		this.addKeyListener(this);
 		this.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
 		gameThread = new Thread(this);
 		gameThread.start();
 	}
 
 	public void paint(Graphics g) {
-		image = createImage(GAME_WIDTH, GAME_HEIGHT); 
+		image = createImage(GAME_WIDTH, GAME_HEIGHT);
 		graphics = image.getGraphics();
 		draw(graphics);
-		g.drawImage(image, 0, 0, this); 
+		g.drawImage(image, 0, 0, this);
 
 	}
 
@@ -72,7 +73,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		} else {
 			rightPaddle = new AIPaddle(GAME_WIDTH - Paddle.WIDTH, GAME_HEIGHT / 2);
 		}
-		
+
 	}
 
 	// Updates velocity after collision
@@ -80,41 +81,41 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		ball.xVelocity *= -1;
 		int dx = 1;
 		int dy = 1;
-		if (randomDir) { // Ball bounces off at random
-			dx=(int)(Math.random()*10.0) +3;
-			dy=(int)(Math.random()*10.0) +3;
-			if(Math.random()>0.5) {
-				dy*=-1;
+		if (randomSpeed) { // Ball bounces off at random
+			dx = (int) (Math.random() * 10.0) + 3;
+			dy = (int) (Math.random() * 10.0) + 3;
+			if (Math.random() > 0.5) {
+				dy *= -1;
 			}
-			if(ball.xVelocity<0) {
-				dx*=-1;
+			if (ball.xVelocity < 0) {
+				dx *= -1;
 			}
 			ball.xVelocity = dx;
 			ball.yVelocity = dy;
-		}else { // Ball speed increases by random amount
+		} else { // Ball speed increases by random amount
 			dx += (int) (Math.random() * 2.0);
-			dy += (int) (Math.random() * 2.0);		
+			dy += (int) (Math.random() * 2.0);
 			if (ball.xVelocity < 0) {
 				dx *= -1;
-			} 
+			}
 			if (ball.yVelocity < 0) {
 				dy *= -1;
 			}
 			ball.xVelocity += dx;
 			ball.yVelocity += dy;
-			if(Math.random()>0.5) {
-				ball.yVelocity*=-1;
+			if (Math.random() > 0.5) {
+				ball.yVelocity *= -1;
 			}
-		}			
+		}
 	}
-	
+
 	// Checks collisions
 	public void checkCollision() {
 		if (ball.intersects(leftPaddle)) {
 			updateVelocity();
 			p1.coins++;
 		}
-		if(ball.intersects(rightPaddle)) {
+		if (ball.intersects(rightPaddle)) {
 			updateVelocity();
 			p2.coins++;
 		}
@@ -179,10 +180,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// Calls methods of keyPressed for paddles and balls
 	public void keyPressed(KeyEvent e) {
 		leftPaddle.keyPressed(e);
-		p1.keyPressed(e,ball);
+		p1.keyPressed(e, ball);
 		if (twoPlayer) {
 			((PlayerPaddle) rightPaddle).keyPressed(e);
-			p2.keyPressed(e,ball);
+			p2.keyPressed(e, ball);
 		}
 	}
 
