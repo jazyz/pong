@@ -8,6 +8,6 @@ e - Pay 3 Coins, Decrease Ball Speed
 Right Player:
 o - Paddle Up
 l - Paddle Down
-[ - Pay 10 Coins, +1 Life
-k - Pay 3 Coins, Increase Ball Speed
-p - Pay 3 Coins, Decrease Ball Speed
+k - Pay 10 Coins, +1 Life
+p - Pay 3 Coins, Increase Ball Speed
+[ - Pay 3 Coins, Decrease Ball Speed
