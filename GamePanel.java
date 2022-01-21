@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		this.randomSpeed = randomSpeed;
 		p1 = new Player('a', 'q', 'e', true);
 		if (twoPlayer) {
-			p2 = new Player('[', 'k', 'p', false);
+			p2 = new Player('k', 'p', '[', false);
 		} else {
 			p2 = new Player('`', '`', '`', false);
 		}
